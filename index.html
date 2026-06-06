@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StonemasonAI — Custom AI Tools Built for Your Business</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{
+  --stone-dark:#1a1614;--stone-mid:#2a2420;--stone-light:#3d3530;
+  --stone-pale:#c8bfb0;--stone-cream:#e8e0d4;--stone-white:#f5f0e8;
+  --gold:#c8960a;--gold2:#a87a00;--gold-light:#e8b830;--ember:#8b3a0a;
+  --border:rgba(200,150,10,0.2);--border2:rgba(200,150,10,0.4);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--stone-dark);color:var(--stone-cream);font-family:'Crimson Pro',serif;min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.06'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.6}
+body::after{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 20% 20%,rgba(200,150,10,0.04) 0%,transparent 50%),radial-gradient(ellipse at 80% 80%,rgba(139,58,10,0.06) 0%,transparent 50%);pointer-events:none;z-index:0}
+
+/* HERO */
+.hero{position:relative;z-index:10;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3rem 1.5rem;text-align:center;border-bottom:1px solid var(--border)}
+.hero-ornament{font-size:12px;letter-spacing:6px;text-transform:uppercase;color:var(--gold);margin-bottom:2rem;font-family:'Cinzel',serif;opacity:.8}
+.chisel-line{display:flex;align-items:center;gap:1rem;justify-content:center;margin-bottom:2rem}
+.chisel-line::before,.chisel-line::after{content:'';width:60px;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
+.chisel-line::after{background:linear-gradient(90deg,var(--gold),transparent)}
+.chisel-diamond{width:8px;height:8px;background:var(--gold);transform:rotate(45deg);box-shadow:0 0 12px var(--gold)}
+.hero-title{font-family:'Cinzel',serif;font-size:clamp(2.5rem,8vw,6rem);font-weight:900;letter-spacing:4px;line-height:.9;margin-bottom:1rem;color:var(--stone-white);text-shadow:0 2px 20px rgba(200,150,10,0.3)}
+.hero-title span{color:var(--gold);display:block;font-size:55%;letter-spacing:12px;font-weight:400;margin-top:.5rem}
+.hero-verse{font-family:'IM Fell English',serif;font-size:1.1rem;font-style:italic;color:var(--stone-pale);max-width:480px;line-height:1.7;margin:1.5rem auto;opacity:.8}
+.hero-sub{font-size:15px;color:var(--stone-pale);max-width:420px;margin:0 auto 2rem;line-height:1.7;opacity:.7}
+
+/* SOCIAL LINKS */
+.social-links{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:2.5rem}
+.social-link{display:flex;align-items:center;gap:6px;border:1px solid rgba(200,150,10,0.3);padding:7px 16px;font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;color:var(--gold);text-decoration:none;text-transform:uppercase;transition:all .2s}
+.social-link:hover{background:rgba(200,150,10,0.1);border-color:var(--gold)}
+
+/* SERVICE BUTTONS */
+.services-section{position:relative;z-index:10;max-width:860px;margin:0 auto;padding:4rem 1.5rem 2rem}
+.services-title{font-family:'Cinzel',serif;font-size:clamp(1rem,3vw,1.4rem);font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--stone-white);text-align:center;margin-bottom:.5rem}
+.services-sub{font-family:'IM Fell English',serif;font-style:italic;font-size:1rem;color:var(--stone-pale);text-align:center;margin-bottom:2.5rem;opacity:.7}
+.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:1rem}
+.service-btn{background:var(--stone-mid);border:1px solid var(--border);padding:1.5rem 1.25rem;cursor:pointer;transition:all .25s;text-align:left;position:relative;overflow:hidden;font-family:inherit}
+.service-btn::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0;transition:opacity .25s}
+.service-btn:hover,.service-btn.active{border-color:var(--border2);background:rgba(200,150,10,0.06)}
+.service-btn:hover::before,.service-btn.active::before{opacity:1}
+.service-btn.active{border-color:var(--gold);box-shadow:0 0 20px rgba(200,150,10,0.1)}
+.service-icon{font-size:1.4rem;margin-bottom:.75rem;display:block}
+.service-name{font-family:'Cinzel',serif;font-size:.85rem;font-weight:600;letter-spacing:2px;color:var(--stone-white);margin-bottom:.5rem;text-transform:uppercase}
+.service-desc{font-size:13px;color:var(--stone-pale);line-height:1.6;margin-bottom:.75rem;opacity:.8}
+.service-price{font-family:'Cinzel',serif;font-size:.95rem;color:var(--gold);letter-spacing:1px}
+.service-select-hint{font-size:11px;color:var(--gold);opacity:0;transition:opacity .2s;font-family:'Cinzel',serif;letter-spacing:1px;margin-top:.5rem}
+.service-btn.active .service-select-hint{opacity:1}
+
+/* DIVIDER */
+.stone-divider{display:flex;align-items:center;gap:1.5rem;margin:3rem 0;opacity:.4}
+.stone-divider::before,.stone-divider::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
+.stone-divider::after{background:linear-gradient(90deg,var(--gold),transparent)}
+.divider-rune{font-family:'Cinzel',serif;font-size:1rem;color:var(--gold);letter-spacing:4px}
+
+/* CONTACT FORM */
+.contact-section{position:relative;z-index:10;max-width:660px;margin:0 auto;padding:0 1.5rem 5rem}
+.contact-title{font-family:'Cinzel',serif;font-size:clamp(1rem,3vw,1.4rem);font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--stone-white);text-align:center;margin-bottom:.5rem}
+.contact-sub{font-family:'IM Fell English',serif;font-style:italic;font-size:1rem;color:var(--stone-pale);text-align:center;margin-bottom:2rem;opacity:.7}
+.selected-service-tag{background:rgba(200,150,10,0.1);border:1px solid var(--border2);padding:.6rem 1.25rem;font-family:'Cinzel',serif;font-size:11px;letter-spacing:2px;color:var(--gold);text-align:center;margin-bottom:1.5rem;display:none;text-transform:uppercase}
+.selected-service-tag.visible{display:block}
+.form-wrap{background:var(--stone-mid);border:1px solid var(--border2);position:relative;overflow:hidden}
+.form-wrap::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--ember),var(--gold),var(--ember));animation:ember-glow 3s ease infinite}
+@keyframes ember-glow{0%,100%{opacity:.6}50%{opacity:1}}
+.form-header{padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);background:rgba(0,0,0,0.2);display:flex;align-items:center;gap:12px}
+.form-avatar{width:40px;height:40px;border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:1rem;color:var(--gold);flex-shrink:0}
+.form-agent-name{font-family:'Cinzel',serif;font-size:.9rem;font-weight:600;letter-spacing:2px;color:var(--stone-white)}
+.form-agent-status{font-size:12px;color:var(--gold);opacity:.7;font-family:'Crimson Pro',serif;font-style:italic}
+.online-dot{width:6px;height:6px;background:#50c878;border-radius:50%;box-shadow:0 0 6px #50c878;animation:pulse-dot 2s infinite;margin-left:auto}
+@keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* FORM FIELDS */
+.form-body{padding:1.5rem}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+@media(max-width:520px){.field-row{grid-template-columns:1fr}}
+.field-wrap{margin-bottom:1rem}
+.field-label{font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--stone-pale);display:block;margin-bottom:6px;opacity:.8}
+.field-input{width:100%;background:rgba(0,0,0,0.2);border:1px solid var(--border2);padding:11px 14px;color:var(--stone-white);font-family:'Crimson Pro',serif;font-size:15px;outline:none;transition:border-color .2s}
+.field-input:focus{border-color:var(--gold)}
+.field-input::placeholder{color:var(--stone-pale);opacity:.4;font-style:italic}
+.field-textarea{width:100%;background:rgba(0,0,0,0.2);border:1px solid var(--border2);padding:11px 14px;color:var(--stone-white);font-family:'Crimson Pro',serif;font-size:15px;outline:none;transition:border-color .2s;resize:vertical;min-height:90px;line-height:1.6}
+.field-textarea:focus{border-color:var(--gold)}
+.field-textarea::placeholder{color:var(--stone-pale);opacity:.4;font-style:italic}
+
+/* ASSURANCE */
+.assurance{background:rgba(200,150,10,0.06);border:1px solid var(--border);padding:1rem 1.25rem;margin-bottom:1.25rem;display:flex;gap:12px;align-items:flex-start}
+.assurance-icon{font-size:1.1rem;flex-shrink:0;margin-top:2px}
+.assurance-text{font-size:13px;color:var(--stone-pale);line-height:1.6;font-family:'Crimson Pro',serif}
+.assurance-text strong{color:var(--gold);font-family:'Cinzel',serif;letter-spacing:1px;font-size:12px}
+
+/* SUBMIT BUTTON */
+.submit-btn{width:100%;background:transparent;border:1px solid var(--gold);color:var(--gold);padding:14px;font-family:'Cinzel',serif;font-size:.95rem;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:all .3s;position:relative;overflow:hidden}
+.submit-btn::before{content:'';position:absolute;inset:0;background:var(--gold);transform:translateX(-100%);transition:transform .3s;z-index:-1}
+.submit-btn:hover{color:var(--stone-dark)}.submit-btn:hover::before{transform:translateX(0)}
+.submit-btn:disabled{opacity:.4;cursor:not-allowed}
+
+/* SUCCESS STATE */
+.success-msg{display:none;text-align:center;padding:2.5rem 1.5rem;background:rgba(200,150,10,0.06);border:1px solid var(--border2)}
+.success-msg.visible{display:block}
+.success-icon{font-size:2.5rem;margin-bottom:1rem;display:block}
+.success-title{font-family:'Cinzel',serif;font-size:1.1rem;letter-spacing:3px;color:var(--gold);margin-bottom:.75rem;text-transform:uppercase}
+.success-text{font-size:15px;color:var(--stone-pale);line-height:1.7;font-family:'Crimson Pro',serif}
+
+/* FOOTER */
+.footer{position:relative;z-index:10;text-align:center;padding:2.5rem 2rem;border-top:1px solid var(--border);font-family:'Cinzel',serif;font-size:11px;letter-spacing:3px;color:var(--stone-pale);opacity:.5}
+
+@media(max-width:600px){.hero{padding:2rem 1rem}.services-section{padding:3rem 1rem 2rem}.contact-section{padding:0 1rem 3rem}}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<!-- NAV -->
+<nav style="position:sticky;top:0;z-index:100;background:rgba(26,22,20,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(200,150,10,0.2);padding:.9rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem">
+  <a href="https://stonemasonai.github.io" style="font-family:'Cinzel',serif;font-size:1rem;font-weight:700;color:var(--stone-white);letter-spacing:2px;text-decoration:none">Stonemason<span style="color:var(--gold)">AI</span></a>
+  <div style="display:flex;gap:1.25rem;align-items:center;flex-wrap:wrap">
+    <a href="https://stonemasonai.github.io/portfolio" style="font-family:'Cinzel',serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--stone-pale);text-decoration:none;opacity:.7;transition:opacity .2s" onmouseover="this.style.opacity=1;this.style.color='var(--gold)'" onmouseout="this.style.opacity=.7;this.style.color='var(--stone-pale)'">Portfolio</a>
+    <a href="https://gumroad.com/stonemasonai" target="_blank" style="font-family:'Cinzel',serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--stone-pale);text-decoration:none;opacity:.7" onmouseover="this.style.opacity=1;this.style.color='var(--gold)'" onmouseout="this.style.opacity=.7;this.style.color='var(--stone-pale)'">Templates</a>
+    <a href="#consult" style="font-family:'Cinzel',serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);border:1px solid rgba(200,150,10,0.4);padding:7px 16px;text-decoration:none;transition:all .2s" onmouseover="this.style.background='rgba(200,150,10,0.1)'" onmouseout="this.style.background='transparent'">Get Started →</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-ornament">Est. MMXXVI</div>
+  <div class="chisel-line"><div class="chisel-diamond"></div></div>
+  <h1 class="hero-title">Stonemason<span>A I</span></h1>
+  <p class="hero-verse">"Once you make the first cut into the stone, it sets in motion a series of choices — and it will never be the same."</p>
+  <p class="hero-sub">Custom AI tools built for your exact business. Tell us your problem. We build the solution.</p>
+
+  <!-- SOCIAL LINKS -->
+  <div class="social-links">
+    <a href="https://www.instagram.com/stonemasonai/" target="_blank" class="social-link">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+      Instagram
+    </a>
+    <a href="https://x.com/StonemasonAI" target="_blank" class="social-link">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      Twitter/X
+    </a>
+    <a href="https://www.facebook.com/stonemasonai/" target="_blank" class="social-link">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+      Facebook
+    </a>
+    <a href="https://www.youtube.com/@stonemasonai" target="_blank" class="social-link">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+      YouTube
+    </a>
+    <a href="https://gumroad.com/stonemasonai" target="_blank" class="social-link">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+      Gumroad
+    </a>
+  </div>
+
+  <button class="submit-btn" style="max-width:280px" onclick="document.getElementById('consult').scrollIntoView({behavior:'smooth'})">Get Your Tool Built →</button>
+</section>
+
+<!-- SERVICES -->
+<section class="services-section">
+  <div class="chisel-line" style="margin-bottom:1.5rem"><div class="chisel-diamond"></div></div>
+  <h2 class="services-title">What Do You Need?</h2>
+  <p class="services-sub">Select the service that fits — we'll take it from there</p>
+
+  <div class="services-grid">
+    <button class="service-btn" onclick="selectService(this,'Custom AI Tool','You need a custom AI tool built around your specific business problem — something generic won\'t cut it. Tell us what you need and we\'ll build it in days.',100,500)">
+      <span class="service-icon">⚒</span>
+      <div class="service-name">Custom AI Tool</div>
+      <div class="service-desc">Built specifically for your workflow. Any niche, any problem.</div>
+      <div class="service-price">From $100</div>
+      <div class="service-select-hint">✓ Selected — fill in your details below</div>
+    </button>
+    <button class="service-btn" onclick="selectService(this,'AI Template','You want a ready-built AI tool you can use immediately — real estate texting, sales playbooks, social content, and more.',27,97)">
+      <span class="service-icon">📜</span>
+      <div class="service-name">AI Templates</div>
+      <div class="service-desc">Ready-built tools. Download, deploy, use immediately.</div>
+      <div class="service-price">$27 — $97</div>
+      <div class="service-select-hint">✓ Selected — fill in your details below</div>
+    </button>
+    <button class="service-btn" onclick="selectService(this,'Full Automation','You need your tools, apps, and workflows connected and automated — Zapier, Make.com, custom integrations handled end to end.',300,800)">
+      <span class="service-icon">🏛</span>
+      <div class="service-name">Full Automation</div>
+      <div class="service-desc">Connect your tools. Automate your workflow. Set and forget.</div>
+      <div class="service-price">From $300</div>
+      <div class="service-select-hint">✓ Selected — fill in your details below</div>
+    </button>
+    <button class="service-btn" onclick="selectService(this,'Done For You','You want us to build it, deploy it, and walk you through it. Complete white-glove service — nothing left for you to figure out.',500,2000)">
+      <span class="service-icon">⚙</span>
+      <div class="service-name">Done For You</div>
+      <div class="service-desc">We build it, deploy it, and walk you through it. You just use it.</div>
+      <div class="service-price">From $500</div>
+      <div class="service-select-hint">✓ Selected — fill in your details below</div>
+    </button>
+  </div>
+</section>
+
+<!-- CONTACT FORM -->
+<section class="contact-section" id="consult">
+  <div class="stone-divider"><div class="divider-rune">✦ &nbsp; ✦ &nbsp; ✦</div></div>
+  <h2 class="contact-title">Tell Us About Your Project</h2>
+  <p class="contact-sub">Fill in your details and we'll be in touch within 24 hours</p>
+
+  <div id="selected-tag" class="selected-service-tag"></div>
+
+  <div class="form-wrap" id="form-wrap">
+    <div class="form-header">
+      <div class="form-avatar">⚒</div>
+      <div>
+        <div class="form-agent-name">StonemasonAI</div>
+        <div class="form-agent-status">Custom AI Tools — Built for Your Business</div>
+      </div>
+      <div class="online-dot"></div>
+    </div>
+
+    <div class="form-body">
+      <div class="field-row">
+        <div class="field-wrap">
+          <label class="field-label">Your Name *</label>
+          <input type="text" class="field-input" id="f-name" placeholder="First and last name">
+        </div>
+        <div class="field-wrap">
+          <label class="field-label">Your Email *</label>
+          <input type="email" class="field-input" id="f-email" placeholder="your@email.com">
+        </div>
+      </div>
+      <div class="field-wrap">
+        <label class="field-label">Your Phone Number *</label>
+        <input type="tel" class="field-input" id="f-phone" placeholder="Best number to reach you">
+      </div>
+      <div class="field-wrap">
+        <label class="field-label">Your Business / Industry</label>
+        <input type="text" class="field-input" id="f-biz" placeholder="e.g. Real estate wholesaler, roofing contractor, gym owner...">
+      </div>
+      <div class="field-wrap">
+        <label class="field-label">Tell Us Your Problem</label>
+        <textarea class="field-textarea" id="f-problem" placeholder="What's the most repetitive or time-consuming thing in your business right now? The more detail the better — we'll tell you exactly what we can build."></textarea>
+      </div>
+      <div class="field-wrap">
+        <label class="field-label">Budget Range (optional)</label>
+        <select class="field-input" id="f-budget">
+          <option value="">Select a range...</option>
+          <option value="Under $100">Under $100</option>
+          <option value="$100 — $300">$100 — $300</option>
+          <option value="$300 — $500">$300 — $500</option>
+          <option value="$500 — $1,000">$500 — $1,000</option>
+          <option value="$1,000+">$1,000+</option>
+          <option value="Not sure yet">Not sure yet</option>
+        </select>
+      </div>
+
+      <!-- ASSURANCE -->
+      <div class="assurance">
+        <div class="assurance-icon">🔒</div>
+        <div class="assurance-text">
+          <strong>You Will Be Contacted Within 24 Hours</strong><br>
+          Your information goes directly to Justin. No bots, no call centers — a real person will review your project and reach out personally to discuss next steps. Your information is never shared or sold.
+        </div>
+      </div>
+
+      <button class="submit-btn" id="submit-btn" onclick="submitForm()">Submit Your Project Request →</button>
+    </div>
+
+    <!-- SUCCESS -->
+    <div class="success-msg" id="success-msg">
+      <span class="success-icon">⚒</span>
+      <div class="success-title">The Stone Has Been Set</div>
+      <div class="success-text">
+        Your request has been received.<br><br>
+        <strong style="color:var(--gold);font-family:'Cinzel',serif;letter-spacing:1px">Justin will personally review your project and reach out within 24 hours.</strong><br><br>
+        In the meantime, feel free to explore our work on social media or check out our ready-made tools on Gumroad.
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="chisel-line" style="margin-bottom:1.5rem;opacity:.3"><div class="chisel-diamond"></div></div>
+  STONEMASON AI &nbsp;✦&nbsp; MMXXVI
+</footer>
+
+<script>
+const FORMSPREE = 'https://formspree.io/f/mrevbypo';
+let selectedServiceName = '';
+let selectedServiceContext = '';
+
+function selectService(btn, name, context, minPrice, maxPrice) {
+  // Remove active from all
+  document.querySelectorAll('.service-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  selectedServiceName = name;
+  selectedServiceContext = context;
+
+  // Update tag
+  const tag = document.getElementById('selected-tag');
+  tag.textContent = '✦ Selected: ' + name + ' — From $' + minPrice;
+  tag.classList.add('visible');
+
+  // Pre-fill budget if possible
+  const budgetSelect = document.getElementById('f-budget');
+  if (minPrice <= 100) budgetSelect.value = 'Under $100';
+  else if (minPrice <= 300) budgetSelect.value = '$100 — $300';
+  else if (minPrice <= 500) budgetSelect.value = '$300 — $500';
+  else if (minPrice <= 1000) budgetSelect.value = '$500 — $1,000';
+
+  // Scroll to form
+  setTimeout(() => {
+    document.getElementById('consult').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 200);
+}
+
+async function submitForm() {
+  const name = document.getElementById('f-name').value.trim();
+  const email = document.getElementById('f-email').value.trim();
+  const phone = document.getElementById('f-phone').value.trim();
+  const biz = document.getElementById('f-biz').value.trim();
+  const problem = document.getElementById('f-problem').value.trim();
+  const budget = document.getElementById('f-budget').value;
+
+  if (!name) { alert('Please enter your name.'); document.getElementById('f-name').focus(); return; }
+  if (!email) { alert('Please enter your email address.'); document.getElementById('f-email').focus(); return; }
+  if (!phone) { alert('Please enter your phone number.'); document.getElementById('f-phone').focus(); return; }
+
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.textContent = 'Submitting...';
+
+  try {
+    const resp = await fetch(FORMSPREE, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        name, email, phone,
+        business: biz || 'Not specified',
+        service: selectedServiceName || 'Not selected',
+        problem: problem || 'Not provided',
+        budget: budget || 'Not specified',
+        _subject: `New Project Request: ${name} — ${selectedServiceName || 'StonemasonAI'}`,
+        source: 'StonemasonAI Landing Page'
+      })
+    });
+
+    if (resp.ok) {
+      document.getElementById('form-wrap').querySelector('.form-body').style.display = 'none';
+      document.getElementById('success-msg').classList.add('visible');
+      document.getElementById('form-wrap').querySelector('.form-header').style.display = 'none';
+    } else {
+      throw new Error('Submit failed');
+    }
+  } catch(e) {
+    btn.disabled = false;
+    btn.textContent = 'Submit Your Project Request →';
+    alert('Something went wrong. Please try again or email us directly.');
+  }
+}
+</script>
+</body>
+</html>
