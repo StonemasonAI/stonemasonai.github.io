@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StonemasonAI — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--stone-dark:#1a1614;--stone-mid:#2a2420;--stone-light:#3d3530;--stone-pale:#c8bfb0;--stone-cream:#e8e0d4;--stone-white:#f5f0e8;--gold:#c8960a;--gold2:#a87a00;--ember:#8b3a0a;--border:rgba(200,150,10,0.2);--border2:rgba(200,150,10,0.4)}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--stone-dark);color:var(--stone-cream);font-family:'Crimson Pro',serif;min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.06'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.6}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:100;background:rgba(26,22,20,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.nav-logo{font-family:'Cinzel',serif;font-size:1.1rem;font-weight:700;color:var(--stone-white);letter-spacing:2px;text-decoration:none}
+.nav-logo span{color:var(--gold)}
+.nav-links{display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap}
+.nav-link{font-family:'Cinzel',serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--stone-pale);text-decoration:none;opacity:.7;transition:opacity .2s}
+.nav-link:hover{opacity:1;color:var(--gold)}
+.nav-cta{font-family:'Cinzel',serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);border:1px solid var(--border2);padding:7px 16px;text-decoration:none;transition:all .2s}
+.nav-cta:hover{background:rgba(200,150,10,0.1)}
+
+/* HERO */
+.hero{position:relative;z-index:10;padding:5rem 2rem 4rem;text-align:center;border-bottom:1px solid var(--border)}
+.hero-eyebrow{font-family:'Cinzel',serif;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);opacity:.8;margin-bottom:1.5rem}
+.chisel-line{display:flex;align-items:center;gap:1rem;justify-content:center;margin-bottom:2rem}
+.chisel-line::before,.chisel-line::after{content:'';width:80px;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
+.chisel-line::after{background:linear-gradient(90deg,var(--gold),transparent)}
+.chisel-diamond{width:8px;height:8px;background:var(--gold);transform:rotate(45deg);box-shadow:0 0 12px var(--gold)}
+.hero-title{font-family:'Cinzel',serif;font-size:clamp(2rem,6vw,4rem);font-weight:900;letter-spacing:3px;line-height:1;color:var(--stone-white);margin-bottom:.75rem;text-shadow:0 2px 20px rgba(200,150,10,0.2)}
+.hero-sub{font-family:'IM Fell English',serif;font-style:italic;font-size:1.1rem;color:var(--stone-pale);max-width:500px;margin:0 auto 1rem;line-height:1.7;opacity:.8}
+.hero-stats{display:flex;gap:2rem;justify-content:center;flex-wrap:wrap;margin-top:2rem}
+.stat{text-align:center}
+.stat-num{font-family:'Cinzel',serif;font-size:2rem;font-weight:900;color:var(--gold);display:block}
+.stat-label{font-size:12px;color:var(--stone-pale);opacity:.7;letter-spacing:1px;text-transform:uppercase;font-family:'Cinzel',serif}
+
+/* PORTFOLIO GRID */
+.portfolio{position:relative;z-index:10;max-width:1000px;margin:0 auto;padding:4rem 2rem}
+.section-header{text-align:center;margin-bottom:3rem}
+.section-eyebrow{font-family:'Cinzel',serif;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);opacity:.8;margin-bottom:.75rem}
+.section-title{font-family:'Cinzel',serif;font-size:clamp(1.2rem,3vw,1.8rem);font-weight:700;letter-spacing:3px;color:var(--stone-white)}
+
+.project-card{background:var(--stone-mid);border:1px solid var(--border);margin-bottom:2rem;overflow:hidden;transition:border-color .3s;animation:fadeUp .5s ease both}
+.project-card:hover{border-color:var(--border2)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.project-card:nth-child(2){animation-delay:.1s}
+.project-card:nth-child(3){animation-delay:.2s}
+
+.project-header{padding:1.5rem 2rem;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap;position:relative;overflow:hidden}
+.project-header::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--ember),var(--gold),var(--ember))}
+.project-number{font-family:'Cinzel',serif;font-size:3rem;font-weight:900;color:rgba(200,150,10,0.15);line-height:1;flex-shrink:0}
+.project-meta{flex:1}
+.project-tag{font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem;opacity:.8}
+.project-name{font-family:'Cinzel',serif;font-size:clamp(1.1rem,3vw,1.5rem);font-weight:700;color:var(--stone-white);letter-spacing:1px;margin-bottom:.25rem}
+.project-client{font-size:13px;color:var(--stone-pale);opacity:.7;font-style:italic}
+.project-badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:.75rem}
+.badge{font-family:'Cinzel',serif;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:3px 10px;border:1px solid var(--border2);color:var(--stone-pale);opacity:.8}
+.badge.live{border-color:rgba(80,200,120,0.4);color:#50c878}
+.badge.gifted{border-color:rgba(200,150,10,0.4);color:var(--gold)}
+.badge.sold{border-color:rgba(139,58,10,0.6);color:#d4814a}
+
+.project-body{padding:1.5rem 2rem;display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+@media(max-width:600px){.project-body{grid-template-columns:1fr}}
+
+.project-desc{font-size:15px;line-height:1.8;color:var(--stone-cream)}
+.project-desc p{margin-bottom:.75rem}
+
+.project-details{}
+.detail-row{display:flex;gap:.75rem;padding:.6rem 0;border-bottom:1px solid var(--border);align-items:flex-start}
+.detail-row:last-child{border-bottom:none}
+.detail-icon{color:var(--gold);flex-shrink:0;font-size:.9rem;margin-top:2px}
+.detail-content{}
+.detail-label{font-family:'Cinzel',serif;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--stone-pale);opacity:.7;display:block;margin-bottom:2px}
+.detail-value{font-size:14px;color:var(--stone-cream)}
+
+.project-footer{padding:1.25rem 2rem;border-top:1px solid var(--border);display:flex;gap:1rem;flex-wrap:wrap;align-items:center;background:rgba(0,0,0,0.15)}
+.project-link{font-family:'Cinzel',serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);text-decoration:none;border:1px solid var(--border2);padding:8px 18px;transition:all .2s;display:inline-flex;align-items:center;gap:6px}
+.project-link:hover{background:rgba(200,150,10,0.1);border-color:var(--gold)}
+.project-link.secondary{color:var(--stone-pale);border-color:var(--border);opacity:.7}
+.project-link.secondary:hover{opacity:1;color:var(--stone-white)}
+
+/* CTA */
+.cta-section{position:relative;z-index:10;background:var(--stone-mid);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:4rem 2rem;text-align:center}
+.cta-title{font-family:'Cinzel',serif;font-size:clamp(1.2rem,3vw,2rem);font-weight:700;letter-spacing:3px;color:var(--stone-white);margin-bottom:.75rem}
+.cta-sub{font-family:'IM Fell English',serif;font-style:italic;font-size:1rem;color:var(--stone-pale);opacity:.7;max-width:480px;margin:0 auto 2rem;line-height:1.7}
+.cta-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Cinzel',serif;font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);border:1px solid var(--border2);padding:14px 32px;text-decoration:none;transition:all .3s;position:relative;overflow:hidden}
+.cta-btn::before{content:'';position:absolute;inset:0;background:var(--gold);transform:translateX(-100%);transition:transform .3s;z-index:-1}
+.cta-btn:hover{color:var(--stone-dark)}.cta-btn:hover::before{transform:translateX(0)}
+
+/* FOOTER */
+.footer{position:relative;z-index:10;text-align:center;padding:2rem;border-top:1px solid var(--border);font-family:'Cinzel',serif;font-size:11px;letter-spacing:3px;color:var(--stone-pale);opacity:.5}
+
+@media(max-width:480px){.nav{padding:1rem}.hero{padding:3rem 1rem 2rem}.portfolio{padding:2rem 1rem}.project-header{padding:1.25rem}.project-body{padding:1.25rem}.project-footer{padding:1rem}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="https://stonemasonai.github.io" class="nav-logo">Stonemason<span>AI</span></a>
+  <div class="nav-links">
+    <a href="https://stonemasonai.github.io" class="nav-link">Home</a>
+    <a href="#portfolio" class="nav-link">Portfolio</a>
+    <a href="https://stonemasonai.github.io#consult" class="nav-cta">Get a Tool Built →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">The Work</div>
+  <div class="chisel-line"><div class="chisel-diamond"></div></div>
+  <h1 class="hero-title">Our Portfolio</h1>
+  <p class="hero-sub">Real tools. Real clients. Real problems solved. Built in days, not months.</p>
+  <div class="hero-stats">
+    <div class="stat"><span class="stat-num">3</span><span class="stat-label">Tools Built</span></div>
+    <div class="stat"><span class="stat-num">2</span><span class="stat-label">Paying Clients</span></div>
+    <div class="stat"><span class="stat-num">48h</span><span class="stat-label">Avg Build Time</span></div>
+    <div class="stat"><span class="stat-num">$0</span><span class="stat-label">Monthly AI Cost</span></div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section class="portfolio" id="portfolio">
+  <div class="section-header">
+    <div class="section-eyebrow">Case Studies</div>
+    <div class="section-title">Every Tool. Every Client.</div>
+  </div>
+
+  <!-- PROJECT 1 -->
+  <div class="project-card">
+    <div class="project-header">
+      <div class="project-number">01</div>
+      <div class="project-meta">
+        <div class="project-tag">Real Estate Automation</div>
+        <div class="project-name">RealText AI</div>
+        <div class="project-client">Client: Emmanuel Moreira — Real Estate Wholesaler, Chicago IL</div>
+        <div class="project-badges">
+          <span class="badge live">✓ Live</span>
+          <span class="badge sold">Sold — $100</span>
+          <span class="badge">xLeads Compatible</span>
+          <span class="badge">Twilio SMS</span>
+        </div>
+      </div>
+    </div>
+    <div class="project-body">
+      <div class="project-desc">
+        <p>Emmanuel was manually texting hundreds of leads one by one from his xLeads list — copy-pasting the same generic message, changing a name here and there. Most leads never replied because the messages felt like spam.</p>
+        <p>We built RealText AI — a tool that imports his xLeads CSV directly, uses free AI to write a personalized message for every single lead, and sends them all from his Twilio number with one click.</p>
+        <p>He went from hours of manual texting to a 5-minute campaign. The AI is completely free. The only cost is Twilio at ~$8 per 1,000 texts.</p>
+      </div>
+      <div class="project-details">
+        <div class="detail-row">
+          <div class="detail-icon">⚒</div>
+          <div class="detail-content"><span class="detail-label">Problem Solved</span><span class="detail-value">Manual lead outreach taking hours per campaign</span></div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-icon">⚙</div>
+          <div class="detail-content"><span class="detail-label">Tech Stack</span><span class="detail-value">Groq AI · Twilio SMS · xLeads CSV · Formspree</span></div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-icon">📱</div>
+          <div class="detail-content"><span class="detail-label">Works On</span><span class="detail-value">Any device — phone or laptop, no install</span></div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-icon">💰</div>
+          <div class="detail-content"><span class="detail-label">Investment</span><span class="detail-value">$100 one-time · AI free · ~$8/1,000 texts</span></div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-icon">⏱</div>
+          <div class="detail-content"><span class="detail-label">Build Time</span><span class="detail-value">One afternoon</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="project-footer">
+      <a href="https://gumroad.com/stonemasonai" target="_blank" class="project-link">Get RealText AI — $47 →</a>
+      <a href="https://stonemasonai.github.io#consult" class="project-link secondary">Build Custom Version</a>
+    </div>
+  </div>
+
+  <!-- PROJECT 2 -->
+  <div class="project-card">
+    <div class="project-header">
+      <div class="project-number">02</div>
+      <div class="project-meta">
+        <div class="project-tag">Sales Automation</div>
+        <div class="project-name">LeadCloser AI</div>
+        <div class="project-client">Client: Real estate & sales professionals — Any niche</div>
+        <div class="project-badges">
+          <span class="badge live">✓ Live</span>
+          <span class="badge sold">Sold — $97</span>
+          <span class="badge">Any Industry</span>
+          <span class="badge">Groq Powered</span>
+        </div>
+      </div>
+    </div>
+    <div class="project-body">
+      <div class="project-desc">
+        <p>Most salespeople lose deals not because they can't close — but because they don't know what to say after the first message. Follow ups get awkward. Objections catch them off guard. The closing script never sounds natural.</p>
+        <p>LeadCloser AI generates a complete personalized sales playbook for any lead in any industry — first outreach message, 3-message follow up sequence with timing, responses for the top 3 objections, and a word-for-word closing script.</p>
+        <p>Paste in a lead. Get a full playbook in 15 seconds. Copy each section and send.</p>
+      </div>
+      <div class="project-details">
+        <div class="detail-row">
+          <div class="detail-icon">⚒</div>
+          <div class="detail-content"><span class="detail-label">Problem Solved</span><span class="detail-value">Inconsistent follow up and lost deals from poor messaging</span></div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-icon">⚙</div>
+          <div class="detail-content"><span class="detail-label">Tech Stack</span><span class="detail-value">Groq AI · Llama 3.3 · Pure HTML · No backend</span></div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-icon">🎯</div>
+          <div class="detail-content"><span class="detail-label">Works For</span><span class="detail-value">Real estate · Contractors · Insurance · Any sales</span></div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-icon">💰</div>
+          <div class="detail-content"><span class="detail-label">Investment</span><span class="detail-value">$97 one-time · AI completely free via Groq</span></div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-icon">⏱</div>
+          <div class="detail-content"><span class="detail-label">Build Time</span><span class="detail-value">One afternoon</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="project-footer">
+      <a href="https://gumroad.com/stonemasonai" target="_blank" class="project-link">Get LeadCloser AI — $97 →</a>
+      <a href="https://stonemasonai.github.io#consult" class="project-link secondary">Build Custom Version</a>
+    </div>
+  </div>
+
+  <!-- PROJECT 3 -->
+  <div class="project-card">
+    <div class="project-header">
+      <div class="project-number">03</div>
+      <div class="project-meta">
+        <div class="project-tag">AI-Powered Website</div>
+        <div class="project-name">StonemasonAI Landing Page</div>
+        <div class="project-client">Client: StonemasonAI — Our Own Business</div>
+        <div class="project-badges">
+          <span class="badge live">✓ Live</span>
+          <span class="badge gifted">Self Build</span>
+          <span class="badge">Vercel Backend</span>
+          <span class="badge">GitHub Pages</span>
+          <span class="badge">Formspree</span>
+        </div>
+      </div>
+    </div>
+    <div class="project-body">
+      <div class="project-desc">
+        <p>We built our own AI-powered business website to demonstrate exactly what we can do for clients. The challenge — make it feel premium, convert visitors into leads, and require zero manual follow up from us.</p>
+        <p>The result is a fully functional business landing page with clickable service buttons that pre-fill the contact form, a 24-hour response guarantee, and a Vercel backend API that keeps the AI key hidden and secure.</p>
+        <p>Every lead submitted goes directly to our inbox via Formspree. The entire stack costs $0/month to run.</p>
+      </div>
+      <div class="project-details">
+        <div class="detail-row">
+          <div class="detail-icon">⚒</div>
+          <div class="detail-content"><span class="detail-label">Problem Solved</span><span class="detail-value">Needed a professional lead-generating web presence</span></div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-icon">⚙</div>
+          <div class="detail-content"><span class="detail-label">Tech Stack</span><span class="detail-value">GitHub Pages · Vercel Serverless · Groq AI · Formspree</span></div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-icon">🔒</div>
+          <div class="detail-content"><span class="detail-label">Security</span><span class="detail-value">API key hidden on Vercel — never exposed to users</span></div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-icon">💰</div>
+          <div class="detail-content"><span class="detail-label">Monthly Cost</span><span class="detail-value">$0 — GitHub Pages + Vercel free tier</span></div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-icon">⏱</div>
+          <div class="detail-content"><span class="detail-label">Build Time</span><span class="detail-value">One day including deployment</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="project-footer">
+      <a href="https://stonemasonai.github.io" target="_blank" class="project-link">View Live Site →</a>
+      <a href="https://stonemasonai.github.io#consult" class="project-link secondary">Get One Built for You</a>
+    </div>
+  </div>
+
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="chisel-line" style="margin-bottom:2rem"><div class="chisel-diamond"></div></div>
+  <div class="cta-title">Your Business. Your Tool.</div>
+  <p class="cta-sub">Every tool we've built started with one conversation. Tell us your problem — we'll tell you exactly what we can build and what it will cost.</p>
+  <a href="https://stonemasonai.github.io#consult" class="cta-btn">Start the Conversation →</a>
+</section>
+
+<footer class="footer">
+  <div class="chisel-line" style="margin-bottom:1.5rem;opacity:.3"><div class="chisel-diamond"></div></div>
+  STONEMASON AI &nbsp;✦&nbsp; MMXXVI
+</footer>
+
+</body>
+</html>
