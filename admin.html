@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StonemasonAI — Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--stone-dark:#1a1614;--stone-mid:#2a2420;--stone-light:#3d3530;--stone-pale:#c8bfb0;--stone-cream:#e8e0d4;--stone-white:#f5f0e8;--gold:#c8960a;--gold2:#a87a00;--ember:#8b3a0a;--border:rgba(200,150,10,0.2);--border2:rgba(200,150,10,0.4);--red:#c0392b;--green:#2d7a4f}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--stone-dark);color:var(--stone-cream);font-family:'Crimson Pro',serif;min-height:100vh}
+
+/* LOGIN */
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem}
+.login-box{background:var(--stone-mid);border:1px solid var(--border2);padding:2.5rem;width:100%;max-width:380px;text-align:center}
+.login-title{font-family:'Cinzel',serif;font-size:1.3rem;font-weight:700;letter-spacing:3px;color:var(--stone-white);margin-bottom:.5rem}
+.login-sub{font-size:13px;color:var(--stone-pale);opacity:.7;margin-bottom:2rem;font-style:italic}
+.login-input{width:100%;background:rgba(0,0,0,0.3);border:1px solid var(--border2);padding:11px 14px;color:var(--stone-white);font-family:'Crimson Pro',serif;font-size:15px;outline:none;margin-bottom:1rem;text-align:center;letter-spacing:3px}
+.login-input:focus{border-color:var(--gold)}
+.login-btn{width:100%;background:transparent;border:1px solid var(--gold);color:var(--gold);padding:12px;font-family:'Cinzel',serif;font-size:12px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:all .2s}
+.login-btn:hover{background:rgba(200,150,10,0.1)}
+.login-err{font-size:12px;color:var(--red);margin-top:.75rem;font-family:'Cinzel',serif;letter-spacing:1px;display:none}
+
+/* ADMIN LAYOUT */
+.admin-wrap{display:none;min-height:100vh}
+.admin-nav{background:var(--stone-mid);border-bottom:1px solid var(--border);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;position:sticky;top:0;z-index:100}
+.admin-logo{font-family:'Cinzel',serif;font-size:1rem;font-weight:700;color:var(--stone-white);letter-spacing:2px}
+.admin-logo span{color:var(--gold)}
+.admin-nav-right{display:flex;gap:1rem;align-items:center}
+.admin-link{font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--stone-pale);text-decoration:none;opacity:.7;cursor:pointer;border:none;background:none;font-size:11px}
+.admin-link:hover{opacity:1;color:var(--gold)}
+.logout-btn{font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--red);background:none;border:1px solid rgba(192,57,43,0.3);padding:5px 12px;cursor:pointer;opacity:.7}
+.logout-btn:hover{opacity:1}
+
+.admin-body{max-width:960px;margin:0 auto;padding:2rem 1.5rem;display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+@media(max-width:700px){.admin-body{grid-template-columns:1fr}}
+
+/* PANELS */
+.panel{background:var(--stone-mid);border:1px solid var(--border)}
+.panel-full{grid-column:1/-1}
+.panel-header{padding:1rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.panel-title{font-family:'Cinzel',serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--gold)}
+.panel-body{padding:1.5rem}
+
+/* FORM */
+.field{margin-bottom:1rem}
+.field label{font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--stone-pale);display:block;margin-bottom:5px;opacity:.8}
+.field input,.field select,.field textarea{width:100%;background:rgba(0,0,0,0.25);border:1px solid var(--border2);padding:9px 12px;color:var(--stone-white);font-family:'Crimson Pro',serif;font-size:14px;outline:none;transition:border-color .15s}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--gold)}
+.field input::placeholder,.field textarea::placeholder{color:var(--stone-pale);opacity:.4;font-style:italic}
+.field textarea{resize:vertical;min-height:80px;line-height:1.5}
+.field select option{background:var(--stone-mid)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+@media(max-width:480px){.grid2{grid-template-columns:1fr}}
+
+/* BADGES */
+.badge-selector{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:.5rem}
+.badge-opt{font-family:'Cinzel',serif;font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:4px 10px;border:1px solid var(--border2);color:var(--stone-pale);cursor:pointer;transition:all .15s;background:none}
+.badge-opt.sel{background:rgba(200,150,10,0.15);border-color:var(--gold);color:var(--gold)}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;font-family:'Cinzel',serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border:none;transition:all .15s}
+.btn-primary{background:var(--gold);color:var(--stone-dark)}
+.btn-primary:hover{background:var(--gold2)}
+.btn-ghost{background:transparent;border:1px solid var(--border2);color:var(--stone-pale)}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+.btn-danger{background:transparent;border:1px solid rgba(192,57,43,0.4);color:var(--red)}
+.btn-danger:hover{background:rgba(192,57,43,0.1)}
+.btn-full{width:100%;justify-content:center}
+.btn-sm{padding:6px 12px;font-size:10px}
+
+/* PROJECT LIST */
+.project-item{border:1px solid var(--border);padding:1rem 1.25rem;margin-bottom:.75rem;display:flex;gap:1rem;align-items:flex-start;transition:border-color .15s;animation:fadeIn .3s ease}
+.project-item:hover{border-color:var(--border2)}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+.project-item-num{font-family:'Cinzel',serif;font-size:1.2rem;font-weight:900;color:rgba(200,150,10,0.3);flex-shrink:0;line-height:1;padding-top:2px}
+.project-item-info{flex:1;min-width:0}
+.project-item-name{font-family:'Cinzel',serif;font-size:.95rem;font-weight:600;color:var(--stone-white);margin-bottom:2px}
+.project-item-client{font-size:12px;color:var(--stone-pale);opacity:.7;margin-bottom:6px}
+.project-item-badges{display:flex;gap:5px;flex-wrap:wrap}
+.mini-badge{font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:2px 8px;border:1px solid var(--border2);color:var(--stone-pale);font-family:'Cinzel',serif}
+.mini-badge.live{border-color:rgba(80,200,120,0.4);color:#50c878}
+.mini-badge.sold{border-color:rgba(200,150,10,0.4);color:var(--gold)}
+.project-item-actions{display:flex;gap:6px;flex-shrink:0}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.75rem}
+.stat-box{background:rgba(0,0,0,0.2);border:1px solid var(--border);padding:1rem;text-align:center}
+.stat-num{font-family:'Cinzel',serif;font-size:1.8rem;font-weight:900;color:var(--gold);display:block;line-height:1}
+.stat-label{font-size:11px;color:var(--stone-pale);opacity:.7;letter-spacing:1px;text-transform:uppercase;font-family:'Cinzel',serif;margin-top:4px;display:block}
+
+/* TOAST */
+.toast{position:fixed;bottom:2rem;right:2rem;background:var(--stone-mid);border:1px solid var(--border2);padding:12px 20px;font-family:'Cinzel',serif;font-size:11px;letter-spacing:2px;color:var(--gold);z-index:9999;display:none;animation:slideUp .3s ease}
+@keyframes slideUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* EXPORT */
+.code-box{background:rgba(0,0,0,0.4);border:1px solid var(--border);padding:1rem;font-family:monospace;font-size:11px;color:var(--stone-pale);white-space:pre-wrap;word-break:break-all;max-height:200px;overflow-y:auto;line-height:1.6}
+
+@media(max-width:480px){.admin-body{padding:1rem}.panel-body{padding:1rem}}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-wrap" id="login-wrap">
+  <div class="login-box">
+    <div style="font-size:2rem;margin-bottom:1rem">⚒</div>
+    <div class="login-title">StonemasonAI</div>
+    <div class="login-sub">Admin Portal — Enter your password</div>
+    <input type="password" class="login-input" id="pw-input" placeholder="••••••••" onkeydown="if(event.key==='Enter')login()">
+    <button class="login-btn" onclick="login()">Enter the Portal →</button>
+    <div class="login-err" id="login-err">Incorrect password</div>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div class="admin-wrap" id="admin-wrap">
+  <nav class="admin-nav">
+    <div class="admin-logo">Stonemason<span>AI</span> <span style="font-size:10px;opacity:.5;letter-spacing:1px">— Admin</span></div>
+    <div class="admin-nav-right">
+      <a href="https://stonemasonai.github.io" target="_blank" class="admin-link">View Site</a>
+      <a href="https://stonemasonai.github.io/portfolio" target="_blank" class="admin-link">View Portfolio</a>
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+  </nav>
+
+  <div class="admin-body">
+
+    <!-- STATS -->
+    <div class="panel">
+      <div class="panel-header"><div class="panel-title">Overview</div></div>
+      <div class="panel-body">
+        <div class="stats-grid">
+          <div class="stat-box"><span class="stat-num" id="s-projects">0</span><span class="stat-label">Projects</span></div>
+          <div class="stat-box"><span class="stat-num" id="s-revenue">$0</span><span class="stat-label">Revenue</span></div>
+          <div class="stat-box"><span class="stat-num" id="s-live">0</span><span class="stat-label">Live</span></div>
+          <div class="stat-box"><span class="stat-num" id="s-gifted">0</span><span class="stat-label">Gifted</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADD PROJECT -->
+    <div class="panel">
+      <div class="panel-header">
+        <div class="panel-title" id="form-panel-title">Add New Project</div>
+        <button class="btn btn-ghost btn-sm" id="cancel-edit-btn" onclick="cancelEdit()" style="display:none">Cancel</button>
+      </div>
+      <div class="panel-body">
+        <div class="field"><label>Project Name *</label><input type="text" id="f-name" placeholder="e.g. RealText AI"></div>
+        <div class="field"><label>Tag / Category</label><input type="text" id="f-tag" placeholder="e.g. Real Estate Automation"></div>
+        <div class="field"><label>Client</label><input type="text" id="f-client" placeholder="e.g. Emmanuel Moreira — Wholesaler, Chicago IL"></div>
+        <div class="field"><label>Short Description *</label><textarea id="f-desc" placeholder="What problem did you solve and how?"></textarea></div>
+        <div class="grid2">
+          <div class="field"><label>Price Charged</label><input type="text" id="f-price" placeholder="e.g. $100"></div>
+          <div class="field"><label>Build Time</label><input type="text" id="f-time" placeholder="e.g. One afternoon"></div>
+        </div>
+        <div class="field"><label>Tech Stack</label><input type="text" id="f-tech" placeholder="e.g. Groq AI · Twilio · GitHub Pages"></div>
+        <div class="field"><label>Live URL (optional)</label><input type="text" id="f-url" placeholder="https://..."></div>
+        <div class="field"><label>Gumroad URL (optional)</label><input type="text" id="f-gumroad" placeholder="https://gumroad.com/..."></div>
+        <div class="field">
+          <label>Badges</label>
+          <div class="badge-selector" id="badge-selector">
+            <button type="button" class="badge-opt" onclick="toggleBadge(this,'Live')">✓ Live</button>
+            <button type="button" class="badge-opt" onclick="toggleBadge(this,'Sold')">Sold</button>
+            <button type="button" class="badge-opt" onclick="toggleBadge(this,'Gifted')">Gifted</button>
+            <button type="button" class="badge-opt" onclick="toggleBadge(this,'Self Build')">Self Build</button>
+            <button type="button" class="badge-opt" onclick="toggleBadge(this,'In Progress')">In Progress</button>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-full" id="save-btn" onclick="saveProject()">+ Add Project</button>
+      </div>
+    </div>
+
+    <!-- PROJECT LIST -->
+    <div class="panel panel-full">
+      <div class="panel-header">
+        <div class="panel-title">All Projects</div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-ghost btn-sm" onclick="exportPortfolio()">Export Portfolio HTML</button>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div id="project-list"><div style="text-align:center;color:var(--stone-pale);opacity:.5;font-style:italic;padding:2rem">No projects yet — add your first one above.</div></div>
+      </div>
+    </div>
+
+    <!-- EXPORT -->
+    <div class="panel panel-full" id="export-panel" style="display:none">
+      <div class="panel-header">
+        <div class="panel-title">Exported Portfolio HTML</div>
+        <button class="btn btn-ghost btn-sm" onclick="copyExport()">Copy HTML</button>
+      </div>
+      <div class="panel-body">
+        <p style="font-size:13px;color:var(--stone-pale);margin-bottom:1rem;opacity:.8">Copy this and paste it into your <code style="font-family:monospace;background:rgba(0,0,0,0.3);padding:2px 6px">portfolio.html</code> file on GitHub to update your live portfolio.</p>
+        <div class="code-box" id="export-code"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── AUTH ──
+const PASSWORD = 'stonemason2026';
+
+function login() {
+  const pw = document.getElementById('pw-input').value;
+  if (pw === PASSWORD) {
+    document.getElementById('login-wrap').style.display = 'none';
+    document.getElementById('admin-wrap').style.display = 'block';
+    loadProjects();
+  } else {
+    document.getElementById('login-err').style.display = 'block';
+    document.getElementById('pw-input').value = '';
+    document.getElementById('pw-input').focus();
+  }
+}
+
+function logout() {
+  document.getElementById('login-wrap').style.display = 'flex';
+  document.getElementById('admin-wrap').style.display = 'none';
+  document.getElementById('pw-input').value = '';
+}
+
+document.getElementById('pw-input').addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
+
+// ── DATA ──
+let projects = [];
+let editingId = null;
+let selectedBadges = new Set();
+
+function saveData() { localStorage.setItem('smai_projects', JSON.stringify(projects)); }
+function loadData() { try { projects = JSON.parse(localStorage.getItem('smai_projects') || '[]'); } catch(e) { projects = []; } }
+
+function loadProjects() {
+  loadData();
+  // Seed with existing 3 projects if empty
+  if (projects.length === 0) {
+    projects = [
+      { id: 1, name: 'RealText AI', tag: 'Real Estate Automation', client: 'Emmanuel Moreira — Wholesaler, Chicago IL', desc: 'Built a cold texting automation tool that imports xLeads CSV, uses free AI to write personalized messages for every lead, and sends from the client\'s Twilio number. Went from hours of manual texting to a 5-minute campaign.', price: '$100', time: 'One afternoon', tech: 'Groq AI · Twilio SMS · xLeads CSV · Formspree', url: 'https://stonemasonai.github.io', gumroad: 'https://gumroad.com/stonemasonai', badges: ['Live','Sold'], created: Date.now() - 200000 },
+      { id: 2, name: 'LeadCloser AI', tag: 'Sales Automation', client: 'Real estate & sales professionals — Any niche', desc: 'Generates a complete personalized sales playbook for any lead — first outreach message, 3-step follow up sequence, objection responses, and closing script. Works for any industry.', price: '$97', time: 'One afternoon', tech: 'Groq AI · Llama 3.3 · Pure HTML', url: '', gumroad: 'https://gumroad.com/stonemasonai', badges: ['Live','Sold'], created: Date.now() - 100000 },
+      { id: 3, name: 'StonemasonAI Website', tag: 'AI-Powered Website', client: 'StonemasonAI — Our Own Business', desc: 'Built our own AI-powered business landing page with clickable service buttons, a contact form with 24hr guarantee, and a Vercel backend keeping the API key secure. $0/month to run.', price: 'Self', time: 'One day', tech: 'GitHub Pages · Vercel Serverless · Groq AI · Formspree', url: 'https://stonemasonai.github.io', gumroad: '', badges: ['Live','Self Build'], created: Date.now() }
+    ];
+    saveData();
+  }
+  renderProjects();
+  updateStats();
+}
+
+function toggleBadge(btn, badge) {
+  btn.classList.toggle('sel');
+  if (selectedBadges.has(badge)) selectedBadges.delete(badge);
+  else selectedBadges.add(badge);
+}
+
+function resetForm() {
+  ['f-name','f-tag','f-client','f-desc','f-price','f-time','f-tech','f-url','f-gumroad'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  selectedBadges = new Set();
+  document.querySelectorAll('.badge-opt').forEach(b => b.classList.remove('sel'));
+  editingId = null;
+  document.getElementById('form-panel-title').textContent = 'Add New Project';
+  document.getElementById('save-btn').textContent = '+ Add Project';
+  document.getElementById('cancel-edit-btn').style.display = 'none';
+}
+
+function cancelEdit() { resetForm(); }
+
+function saveProject() {
+  const name = document.getElementById('f-name').value.trim();
+  const desc = document.getElementById('f-desc').value.trim();
+  if (!name) { alert('Project name is required.'); return; }
+
+  const project = {
+    id: editingId || Date.now(),
+    name,
+    tag: document.getElementById('f-tag').value.trim(),
+    client: document.getElementById('f-client').value.trim(),
+    desc,
+    price: document.getElementById('f-price').value.trim(),
+    time: document.getElementById('f-time').value.trim(),
+    tech: document.getElementById('f-tech').value.trim(),
+    url: document.getElementById('f-url').value.trim(),
+    gumroad: document.getElementById('f-gumroad').value.trim(),
+    badges: [...selectedBadges],
+    created: editingId ? (projects.find(p => p.id === editingId)?.created || Date.now()) : Date.now()
+  };
+
+  if (editingId) {
+    const idx = projects.findIndex(p => p.id === editingId);
+    if (idx !== -1) projects[idx] = project;
+  } else {
+    projects.push(project);
+  }
+
+  saveData();
+  renderProjects();
+  updateStats();
+  resetForm();
+  toast(editingId ? 'Project updated!' : 'Project added!');
+}
+
+function editProject(id) {
+  const p = projects.find(x => x.id === id);
+  if (!p) return;
+  editingId = id;
+  document.getElementById('f-name').value = p.name || '';
+  document.getElementById('f-tag').value = p.tag || '';
+  document.getElementById('f-client').value = p.client || '';
+  document.getElementById('f-desc').value = p.desc || '';
+  document.getElementById('f-price').value = p.price || '';
+  document.getElementById('f-time').value = p.time || '';
+  document.getElementById('f-tech').value = p.tech || '';
+  document.getElementById('f-url').value = p.url || '';
+  document.getElementById('f-gumroad').value = p.gumroad || '';
+  selectedBadges = new Set(p.badges || []);
+  document.querySelectorAll('.badge-opt').forEach(b => {
+    b.classList.toggle('sel', selectedBadges.has(b.textContent.replace('✓ ','').trim()));
+  });
+  document.getElementById('form-panel-title').textContent = 'Edit Project';
+  document.getElementById('save-btn').textContent = 'Save Changes';
+  document.getElementById('cancel-edit-btn').style.display = 'inline-flex';
+  document.querySelector('.panel:nth-child(2)').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function deleteProject(id) {
+  if (!confirm('Delete this project?')) return;
+  projects = projects.filter(p => p.id !== id);
+  saveData();
+  renderProjects();
+  updateStats();
+  toast('Project deleted.');
+}
+
+function renderProjects() {
+  const container = document.getElementById('project-list');
+  if (!projects.length) {
+    container.innerHTML = '<div style="text-align:center;color:var(--stone-pale);opacity:.5;font-style:italic;padding:2rem">No projects yet.</div>';
+    return;
+  }
+  container.innerHTML = projects.map((p, i) => `
+    <div class="project-item">
+      <div class="project-item-num">${String(i+1).padStart(2,'0')}</div>
+      <div class="project-item-info">
+        <div class="project-item-name">${esc(p.name)}</div>
+        <div class="project-item-client">${esc(p.client || p.tag || '')}</div>
+        <div class="project-item-badges">
+          ${(p.badges||[]).map(b => `<span class="mini-badge ${b==='Live'?'live':b==='Sold'?'sold':''}">${esc(b)}</span>`).join('')}
+          ${p.price ? `<span class="mini-badge" style="color:var(--gold);border-color:rgba(200,150,10,0.3)">${esc(p.price)}</span>` : ''}
+        </div>
+      </div>
+      <div class="project-item-actions">
+        <button class="btn btn-ghost btn-sm" onclick="editProject(${p.id})">Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteProject(${p.id})">✕</button>
+      </div>
+    </div>`).join('');
+}
+
+function updateStats() {
+  document.getElementById('s-projects').textContent = projects.length;
+  const revenue = projects.reduce((sum, p) => {
+    const n = parseInt((p.price||'').replace(/[^0-9]/g,''));
+    return sum + (isNaN(n) ? 0 : n);
+  }, 0);
+  document.getElementById('s-revenue').textContent = revenue ? '$' + revenue.toLocaleString() : '$0';
+  document.getElementById('s-live').textContent = projects.filter(p => (p.badges||[]).includes('Live')).length;
+  document.getElementById('s-gifted').textContent = projects.filter(p => (p.badges||[]).includes('Gifted') || (p.badges||[]).includes('Self Build')).length;
+}
+
+function exportPortfolio() {
+  const projectCards = projects.map((p, i) => {
+    const badgeHTML = (p.badges||[]).map(b => {
+      const cls = b === 'Live' ? 'live' : b === 'Sold' ? 'sold' : b === 'Gifted' ? 'gifted' : '';
+      return `<span class="badge ${cls}">${b === 'Live' ? '✓ ' : ''}${b}</span>`;
+    }).join('\n          ');
+
+    return `
+  <!-- PROJECT ${i+1} -->
+  <div class="project-card">
+    <div class="project-header">
+      <div class="project-number">${String(i+1).padStart(2,'0')}</div>
+      <div class="project-meta">
+        <div class="project-tag">${p.tag || ''}</div>
+        <div class="project-name">${p.name}</div>
+        <div class="project-client">${p.client || ''}</div>
+        <div class="project-badges">
+          ${badgeHTML}
+          ${p.tech ? p.tech.split('·').map(t => `<span class="badge">${t.trim()}</span>`).join('\n          ') : ''}
+        </div>
+      </div>
+    </div>
+    <div class="project-body">
+      <div class="project-desc"><p>${p.desc || ''}</p></div>
+      <div class="project-details">
+        ${p.time ? `<div class="detail-row"><div class="detail-icon">⏱</div><div class="detail-content"><span class="detail-label">Build Time</span><span class="detail-value">${p.time}</span></div></div>` : ''}
+        ${p.tech ? `<div class="detail-row"><div class="detail-icon">⚙</div><div class="detail-content"><span class="detail-label">Tech Stack</span><span class="detail-value">${p.tech}</span></div></div>` : ''}
+        ${p.price ? `<div class="detail-row"><div class="detail-icon">💰</div><div class="detail-content"><span class="detail-label">Investment</span><span class="detail-value">${p.price}</span></div></div>` : ''}
+      </div>
+    </div>
+    <div class="project-footer">
+      ${p.url ? `<a href="${p.url}" target="_blank" class="project-link">View Live →</a>` : ''}
+      ${p.gumroad ? `<a href="${p.gumroad}" target="_blank" class="project-link secondary">Get on Gumroad</a>` : ''}
+      ${!p.url && !p.gumroad ? `<a href="https://stonemasonai.github.io#consult" class="project-link secondary">Get One Built →</a>` : ''}
+    </div>
+  </div>`;
+  }).join('\n');
+
+  const statsHtml = `
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num">${projects.length}</span><span class="stat-label">Tools Built</span></div>
+      <div class="stat"><span class="stat-num">${projects.filter(p=>(p.badges||[]).includes('Sold')).length}</span><span class="stat-label">Paying Clients</span></div>
+      <div class="stat"><span class="stat-num">48h</span><span class="stat-label">Avg Build Time</span></div>
+      <div class="stat"><span class="stat-num">$0</span><span class="stat-label">Monthly AI Cost</span></div>
+    </div>`;
+
+  const exportCode = `<!-- PASTE THIS INTO THE portfolio.html PROJECTS SECTION -->\n<!-- STATS -->\n${statsHtml}\n\n<!-- PROJECTS -->\n${projectCards}`;
+  document.getElementById('export-code').textContent = exportCode;
+  document.getElementById('export-panel').style.display = 'block';
+  document.getElementById('export-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function copyExport() {
+  const text = document.getElementById('export-code').textContent;
+  navigator.clipboard.writeText(text).then(() => toast('HTML copied to clipboard!'));
+}
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.display = 'block';
+  setTimeout(() => t.style.display = 'none', 2500);
+}
+
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+</script>
+</body>
+</html>
